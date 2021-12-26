@@ -1,4 +1,29 @@
-# Getting Started with Create React App
+# React + D3.js 
+
+## 개인 연습용 프로젝트
+
+차트라이브러리 사용에 한계가 있고 실무에서 바로바로 활용할수 있도록 만듬 
+
+
+In the project directory, you can run:
+
+### `npm start`
+<!--  
+참고 및 아이디어 사이트
+https://mobicon.tistory.com/275?category=539879
+https://github.com/zziuni/d3
+http://recursion.org/d3-for-mere-mortals
+
+
+https://darrengwon.tistory.com/1140
+https://observablehq.com/@analyzer2004/plot-gallery
+https://cyberx.tistory.com/117
+https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js
+ -->
+
+
+
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -67,4 +92,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
