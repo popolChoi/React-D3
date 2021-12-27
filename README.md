@@ -18,7 +18,6 @@ http://recursion.org/d3-for-mere-mortals
 https://darrengwon.tistory.com/1140
 https://observablehq.com/@analyzer2004/plot-gallery
 https://cyberx.tistory.com/117
-https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js
  -->
 
 
