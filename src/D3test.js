@@ -2,59 +2,80 @@ import React, { Component } from 'react';
 import { select } from "d3";
 
 import * as d3 from "d3";
+import weather_la from "./weather_la";
 
 
 class D3test extends Component {
     svgRef = React.createRef();
 
-    constructor(props){
-        super(props);
-
-    }
-
- 
-
     componentDidMount(){
         const svg = select(this.svgRef.current); // selection 객체
-     
+        const boxWidth = 17;
+        const boxHeight = 10;
 
+        const lineNo = 7;
+        const data = weather_la;
+        const xAxisData =  [...Array(Math.ceil(data.length/ lineNo))];
 
+        const buYlRdColorList =  [
+            "#BADBE1", "#82ACD2", "#82ACD2", "#DDEFE2", "#E1F1E2", "#FAD896",
+           "#EF8355", "#ED714D", "#F4A16D", "#F3B586", "#B8C2C4", "#A3C8DA"
+        ]
 
-        this.setResize();
-        window.addEventListener('resize',() => this.setResize());
+        svg.selectAll('svg')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("fill", (d, i, e) =>{
+            // return buYlRdColorList[Math.floor( d.Temperature % 12)];
+            return buYlRdColorList[new Date(d["Date time"]).getUTCMonth()];
+        })
+
+        .attr("transform", (d, i, e) => {
+            const no = Math.floor(i / lineNo);
+            const no2 = i % lineNo;
+            return `translate(${1 + (no * boxWidth) + no}, ${1 + (no2 * boxHeight) + no2})`;
+        } )
+        
+        // xAxis
+        const xAxisBlock =  svg
+            .append('svg:g')
+            .attr("transform", `translate( ${boxWidth/ 2 - 1}, ${lineNo * boxHeight + lineNo + 2})`)
+            .attr("width", boxWidth)
+            .attr("height", boxHeight);
+
+        const xAxis = xAxisBlock.selectAll('g')
+            .data(xAxisData)
+            .enter()
+            .append('g') 
+            .attr("transform", (d, i, e) => `translate(${1 + (i * boxWidth) + i},0)`)  
+        ; 
+
+        xAxis.append('line')
+            .attr("y2",6)
+            .style('stroke','#1b1e23' )
+            .style('stroke-width','1' )
+            this.setResize();
+            window.addEventListener('resize',() => this.setResize())
+           
+        ;
+
+        xAxis.append('text')
+            .text((d,i) => i)
+            .attr("transform", `translate(-4.5, 16)`)
+            .style('font-size','10px' )
+        ;
     }
 
     setResize(){
-
         const svg = select(this.svgRef.current); // selection 객체
-        console.log(window.innerWidth);
-
+        console.log(this.svgRef.current);
         svg
         .attr("width", window.innerWidth - 2 + 'px')
-        .attr("height", '300px')
+        .attr("height",  window.innerHeight - 7 + 'px')
         .style("border", "1px solid rgba(0,0,0,0.1)");
-
-        const data = [...Array(10)].map(() => 30);
-        svg.append("svg:rect")
-        .attr("x", 1)
-        .attr("y", 1)
-        .attr("height", 100)
-        .attr("width", 200);
-
-        svg.append("svg:rect")
-        .attr("x", 1)
-        .attr("y", 102)
-        .attr("height", 100)
-        .attr("width", 200);
-
-        // .selectAll('svg')
-        // .data(data)
-        // .enter()
-        // .append('g')
-        // .append('text')
-        // .text((d) => d);
-
-
     }
 
 
@@ -119,9 +140,12 @@ class D3test extends Component {
 
     render() {
         return (
-        <svg ref={this.svgRef} >
+            <React.Fragment>
+                <svg ref={this.svgRef} >
 
-        </svg>
+                </svg>
+            </React.Fragment>
+      
         );
     } 
 
