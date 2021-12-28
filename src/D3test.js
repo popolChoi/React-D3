@@ -3,6 +3,7 @@ import { select } from "d3";
 
 import * as d3 from "d3";
 import weather_la from "./weather_la";
+import Data from "./data";
 
 
 class D3test extends Component {
@@ -10,35 +11,89 @@ class D3test extends Component {
 
     componentDidMount(){
         const svg = select(this.svgRef.current); // selection 객체
-        const boxWidth = 17;
-        const boxHeight = 10;
+        const boxWidth = 20;
+        const boxHeight = 15;
 
-        const lineNo = 7;
-        const data = weather_la;
+        const lineNo = 20;
+        const data = [...Array(100)].map(()=> Data.map(d =>( {value: d.value + Math.floor(Math.random() * 12)}) )).flat();
         const xAxisData =  [...Array(Math.ceil(data.length/ lineNo))];
-
         const buYlRdColorList =  [
-            "#BADBE1", "#82ACD2", "#82ACD2", "#DDEFE2", "#E1F1E2", "#FAD896",
-           "#EF8355", "#ED714D", "#F4A16D", "#F3B586", "#B8C2C4", "#A3C8DA"
-        ]
+            // "#BADBE1", 
+            // "#82ACD2",
+            // "#82ACD2", 
+            // "#DDEFE2", 
+            // "#E1F1E2", 
+            // "#FAD896",
+            // "#EF8355", 
+            // "#ED714D", 
+            // "#F4A16D", 
+            // "#F3B586", 
+            // "#B8C2C4", 
+            // "#A3C8DA"
 
-        svg.selectAll('svg')
+
+            "#313695", //0 
+            "#4575B4", //8
+            "#74ADD1", //16
+            "#ABD9E9", //24
+            "#E0F3F8", //32
+            "#FFFFBF", //40
+            "#FEE090", //48
+            "#FDAE61", //56
+            "#F46D43", //64
+            "#D73027", //72
+            "#A50026", //80
+            "#5c024f", //88
+            "#270029", //96
+          
+
+
+
+        ]
+      
+        // data
+        const g = svg.selectAll('svg')
         .data(data)
         .enter()
-        .append('rect')
+        .append('g')
         .attr("width", boxWidth)
         .attr("height", boxHeight)
-        .style("fill", (d, i, e) =>{
-            // return buYlRdColorList[Math.floor( d.Temperature % 12)];
-            return buYlRdColorList[new Date(d["Date time"]).getUTCMonth()];
-        })
-
         .attr("transform", (d, i, e) => {
             const no = Math.floor(i / lineNo);
             const no2 = i % lineNo;
             return `translate(${1 + (no * boxWidth) + no}, ${1 + (no2 * boxHeight) + no2})`;
-        } )
-        
+            //matrix
+        })
+        ;
+
+       
+        g.append('rect')
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .style("fill", (d, i, e) =>{
+            const color = buYlRdColorList[Math.floor(d.value / 8)];
+            return color || buYlRdColorList[buYlRdColorList.length-1];
+        })
+        ;
+        g.append('text')
+        .attr("width", boxWidth)
+        .attr("height", boxHeight)
+        .text((d,i, r) => {
+
+            return d.value
+        })
+        .attr("transform", (d, i, e) => {
+            return `matrix(1, 0, 0, 1, ${boxWidth /2}, ${boxHeight -3})`;
+        })
+        .attr('text-anchor', 'middle')
+        .style('font-size','10px' )
+        .style("fill", "white")
+        ;
+
+
+
+
+       
         // xAxis
         const xAxisBlock =  svg
             .append('svg:g')
@@ -71,7 +126,6 @@ class D3test extends Component {
 
     setResize(){
         const svg = select(this.svgRef.current); // selection 객체
-        console.log(this.svgRef.current);
         svg
         .attr("width", window.innerWidth - 2 + 'px')
         .attr("height",  window.innerHeight - 7 + 'px')
